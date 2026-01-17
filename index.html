@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BotPenguin Chatbot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot BotPenguin</title>
+    <style>
+        /* Opcional: que el body ocupi tota la pantalla */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Aquí va el teu contingut normal -->
+    <h1>Benvingut al meu web amb BotPenguin</h1>
+    <p>El xat apareixerà automàticament a la pantalla.</p>
 
-  <!-- Codi de BotPenguin (copia’l des del teu dashboard) -->
-  <script>
-    (function(d, t) {
-        var s = d.createElement(t);
-        s.src = "https://cdn.botpenguin.com/botpenguin.js";
-        s.setAttribute("id", "BotPenguin-messenger-widget");
-        s.innerHTML = "YOUR_BOTPENGUIN_BOT_ID";
-        d.body.appendChild(s);
-    })(document, "script");
-  </script>
+    <!-- Codi del bot -->
+    <script id="messenger-widget-b" src="https://cdn.botpenguin.com/website-bot.js" defer>
+        681d1d1964a4a06c626ffec4,681d1cf5e6a4e2c19679762e
+    </script>
 
 </body>
 </html>
