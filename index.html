@@ -347,46 +347,44 @@
         // Formato: https://raw.githubusercontent.com/USUARIO/REPOSITORIO/main/ruta/archivo.mp4
         // ============================================
         
-        // Datos de los videos (REEMPLAZA con tus URLs de GitHub)
+        // Datos de los videos CORREGIDOS
         const videoData = [
             {
                 id: 1,
-                title: "Video de GitHub 1",
-                author: "Tu Usuario",
+                title: "Video 1 desde GitHub",
+                author: "Trispawn",
                 // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/tu-usuario/tu-repo/main/assets/images/avatar1.jpg",
+                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar1.jpg",
                 likes: "125K",
                 comments: "2.3K",
                 shares: "5K",
                 liked: false,
-                // Reemplaza con la URL de tu video en GitHub
-                videoUrl: "https://github.com/Trispawn/chattivi/blob/b5aabe47ec3c8fb0207c29bb85f051fbbe9711f7/assets/video1.mp4"
+                // URL CORREGIDA - usa "raw.githubusercontent.com" no "github.com"
+                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video1.mp4"
             },
             {
                 id: 2,
-                title: "Video de GitHub 2",
-                author: "Tu Usuario",
+                title: "Video 2 desde GitHub",
+                author: "Trispawn",
                 // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/tu-usuario/tu-repo/main/assets/images/avatar2.jpg",
+                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar2.jpg",
                 likes: "89K",
                 comments: "1.5K",
                 shares: "3.2K",
                 liked: true,
-                // Reemplaza con la URL de tu video en GitHub
-                videoUrl: "https://raw.githubusercontent.com/tu-usuario/tu-repo/main/assets/videos/video2.mp4"
+                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video2.mp4"
             },
             {
                 id: 3,
-                title: "Video de GitHub 3",
-                author: "Tu Usuario",
+                title: "Video 3 desde GitHub",
+                author: "Trispawn",
                 // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/tu-usuario/tu-repo/main/assets/images/avatar3.jpg",
+                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar3.jpg",
                 likes: "210K",
                 comments: "4.7K",
                 shares: "12K",
                 liked: false,
-                // Reemplaza con la URL de tu video en GitHub
-                videoUrl: "https://raw.githubusercontent.com/tu-usuario/tu-repo/main/assets/videos/video3.mp4"
+                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video3.mp4"
             }
         ];
 
@@ -427,7 +425,7 @@
                 <div class="video-error">
                     <h3>⚠️ Configuración Requerida</h3>
                     <p>Debes configurar las URLs de tus videos e imágenes en GitHub.</p>
-                    <p>Reemplaza las URLs en el código JavaScript (líneas 203-230):</p>
+                    <p>Reemplaza las URLs en el código JavaScript:</p>
                     <p><code>https://raw.githubusercontent.com/tu-usuario/tu-repo/main/...</code></p>
                     <p>por tus URLs reales de GitHub.</p>
                     <button class="error-btn" onclick="location.reload()">Recargar después de configurar</button>
@@ -518,7 +516,7 @@
                     <div class="video-info">
                         <div class="video-title">${video.title}</div>
                         <div class="video-author">
-                            <img src="${video.authorAvatar}" alt="${video.author}" class="author-avatar" onerror="this.src='https://via.placeholder.com/40'">
+                            <img src="${video.authorAvatar}" alt="${video.author}" class="author-avatar" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23333%22/><text x=%2220%22 y=%2222%22 font-family=%22Arial%22 font-size=%2214%22 fill=%22%23fff%22 text-anchor=%22middle%22>${video.author.charAt(0)}</text></svg>'">
                             <div class="author-name">${video.author}</div>
                         </div>
                         <div class="video-stats">
