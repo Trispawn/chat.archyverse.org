@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoShorts - Full HD</title>
+    <title>VideoShorts - Sin Auto-skip</title>
     <style>
         * {
             margin: 0;
@@ -26,7 +26,6 @@
             position: relative;
         }
         
-        /* Contenedor para videos 1920×1080 */
         .video-container {
             position: relative;
             width: 100%;
@@ -37,22 +36,19 @@
             background: #000;
         }
         
-        /* Video en calidad original 1920×1080 */
         .video-fullhd {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Muestra video completo sin recortar */
+            object-fit: contain;
             background: #000;
         }
         
-        /* Para videos verticales (modo portrait) */
         .video-vertical {
             width: auto;
             height: 100%;
             max-width: 100%;
         }
         
-        /* Para videos horizontales (modo landscape) */
         .video-horizontal {
             width: 100%;
             height: auto;
@@ -112,32 +108,38 @@
             font-size: 12px;
         }
         
-        .next-timer {
+        .end-screen {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             background: rgba(0,0,0,0.7);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            display: none;
+            padding: 20px 30px;
+            border-radius: 15px;
             text-align: center;
+            display: none;
             z-index: 10;
+            width: 80%;
+            max-width: 300px;
         }
         
-        .next-timer.show {
+        .end-screen.show {
             display: block;
         }
         
-        .skip-btn {
-            background: rgba(255,255,255,0.2);
+        .end-btn {
+            background: #ff0050;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 20px;
             border-radius: 5px;
-            margin-top: 10px;
+            margin: 10px 5px 0;
             cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .end-btn.secondary {
+            background: #444;
         }
         
         .start-screen {
@@ -210,13 +212,16 @@
         
         .config-panel {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(0,0,0,0.8);
-            padding: 15px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.9);
+            padding: 20px;
             border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
             display: none;
-            z-index: 10;
+            z-index: 100;
         }
         
         .config-panel.show {
@@ -225,23 +230,25 @@
         
         .config-input {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
+            padding: 10px;
+            margin: 8px 0;
             background: #333;
             border: 1px solid #555;
             color: white;
             border-radius: 5px;
+            font-size: 14px;
         }
         
         .config-btn {
             background: #00aaff;
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
             width: 100%;
+            font-size: 14px;
         }
         
         .quality-badge {
@@ -255,36 +262,66 @@
             color: #0f0;
             z-index: 5;
         }
+        
+        .nav-buttons {
+            position: absolute;
+            bottom: 120px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 5;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .loop-badge {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: rgba(0,100,255,0.5);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            color: white;
+            z-index: 5;
+        }
     </style>
 </head>
 <body>
     <!-- Pantalla de inicio -->
     <div class="start-screen" id="startScreen">
-        <h1>🎬 VideoShorts HD</h1>
-        <p>Toca el botón para empezar</p>
+        <h1>🎬 VideoShorts</h1>
+        <p>Reproduce videos 1920×1080</p>
+        <p style="font-size: 14px; opacity: 0.8; margin-top: 10px;">NO pasa automáticamente al siguiente</p>
         <button class="start-btn" id="startBtn">▶️ COMENZAR</button>
         
         <!-- Panel de configuración -->
         <div class="config-panel" id="configPanel">
-            <h3>📁 Configurar Videos</h3>
-            <p style="font-size: 12px; margin-bottom: 10px;">Pega tus URLs de videos 1920×1080:</p>
+            <h3>📁 Configurar Tus Videos</h3>
+            <p style="font-size: 13px; margin-bottom: 15px;">Pega URLs de videos 1920×1080 (máx 3):</p>
             
             <div id="videoInputs">
                 <!-- Se generan dinámicamente -->
             </div>
             
-            <div style="margin-top: 15px;">
-                <button class="config-btn" onclick="saveVideoUrls()">💾 Guardar URLs</button>
-                <button class="config-btn" onclick="useDemoVideos()" style="background: #555; margin-top: 5px;">🎬 Usar Videos de Demo</button>
-                <button class="config-btn" onclick="showConfigPanel()" style="background: #777; margin-top: 5px;">❌ Cerrar</button>
+            <div style="margin-top: 20px;">
+                <button class="config-btn" onclick="saveVideoUrls()">💾 Guardar y Cerrar</button>
+                <button class="config-btn" onclick="useDemoVideos()" style="background: #555; margin-top: 8px;">🎬 Usar Videos Demo</button>
+                <button class="config-btn" onclick="hideConfigPanel()" style="background: #777; margin-top: 8px;">❌ Cancelar</button>
             </div>
         </div>
         
-        <div style="margin-top: 20px;">
-            <button class="config-btn" onclick="showConfigPanel()" style="background: #333;">⚙️ Configurar Videos</button>
+        <div style="margin-top: 30px;">
+            <button class="config-btn" onclick="showConfigPanel()" style="background: #333; width: auto;">⚙️ Configurar Videos</button>
         </div>
-        
-        <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">Soporta videos 1920×1080 (Full HD)</p>
     </div>
     
     <!-- Contenedor principal -->
@@ -292,38 +329,52 @@
         <div class="counter" id="counter">Video 1/0</div>
         <div class="debug-info" id="debugInfo"></div>
         <div class="quality-badge" id="qualityBadge">HD</div>
+        <div class="loop-badge" id="loopBadge">LOOP: OFF</div>
         
         <!-- Videos se cargan aquí -->
         <div id="videosContainer"></div>
         
-        <div class="next-timer" id="nextTimer">Siguiente video en 1s...</div>
+        <!-- Pantalla de fin de video -->
+        <div class="end-screen" id="endScreen">
+            <h3>🎬 Video Terminado</h3>
+            <p style="margin: 15px 0; font-size: 14px;">¿Qué quieres hacer?</p>
+            <div>
+                <button class="end-btn" onclick="replayVideo()">🔄 Repetir</button>
+                <button class="end-btn secondary" onclick="nextVideo()">⏭️ Siguiente</button>
+                <button class="end-btn secondary" onclick="prevVideo()">⏮️ Anterior</button>
+            </div>
+            <div style="margin-top: 15px;">
+                <button class="end-btn secondary" onclick="toggleLoop()" id="toggleLoopBtn">🔄 Loop: OFF</button>
+            </div>
+        </div>
         
         <div class="error-message" id="errorMessage">
             <h3>❌ Error cargando video</h3>
             <p id="errorText">No se pudo cargar el video</p>
-            <button class="skip-btn" onclick="nextVideo()">Saltar este video</button>
+            <button class="end-btn" onclick="nextVideo()" style="margin-top: 15px;">Saltar este video</button>
+        </div>
+        
+        <!-- Botones de navegación -->
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="prevVideo()">⏮️ Anterior</button>
+            <button class="nav-btn" onclick="nextVideo()">⏭️ Siguiente</button>
         </div>
     </div>
 
     <script>
         // ============================================
-        // CONFIGURACIÓN - REEMPLAZA CON TUS VIDEOS
+        // CONFIGURACIÓN
         // ============================================
-        // Formato de URLs: https://raw.githubusercontent.com/USUARIO/REPO/main/video.mp4
-        // ============================================
-        
         let videos = [];
         let currentVideoIndex = 0;
-        let timer = null;
         let userStarted = false;
-        let videoElements = [];
+        let loopEnabled = false;
 
         // Elementos del DOM
         const startScreen = document.getElementById('startScreen');
         const mainContainer = document.getElementById('mainContainer');
         const startBtn = document.getElementById('startBtn');
         const videosContainer = document.getElementById('videosContainer');
-        const nextTimer = document.getElementById('nextTimer');
         const counter = document.getElementById('counter');
         const debugInfo = document.getElementById('debugInfo');
         const errorMessage = document.getElementById('errorMessage');
@@ -331,17 +382,20 @@
         const configPanel = document.getElementById('configPanel');
         const videoInputs = document.getElementById('videoInputs');
         const qualityBadge = document.getElementById('qualityBadge');
+        const endScreen = document.getElementById('endScreen');
+        const loopBadge = document.getElementById('loopBadge');
+        const toggleLoopBtn = document.getElementById('toggleLoopBtn');
 
         // ============================================
         // INICIALIZACIÓN
         // ============================================
         function initApp() {
-            console.log("Inicializando VideoShorts HD...");
+            console.log("Iniciando VideoShorts...");
             
             // Cargar configuraciones guardadas
             loadSavedVideos();
             
-            // Si no hay videos configurados, usar demo
+            // Si no hay videos, usar demo
             if (videos.length === 0) {
                 useDemoVideos();
             }
@@ -354,18 +408,7 @@
                 if (!userStarted && (e.code === 'Space' || e.code === 'Enter')) {
                     startVideos();
                 }
-                
-                // Tecla C para configuración
-                if (e.code === 'KeyC' && e.ctrlKey) {
-                    e.preventDefault();
-                    showConfigPanel();
-                }
             });
-            
-            // Mostrar panel de configuración si no hay videos
-            if (videos.length === 0) {
-                showConfigPanel();
-            }
         }
 
         // ============================================
@@ -376,9 +419,9 @@
             if (savedVideos) {
                 try {
                     videos = JSON.parse(savedVideos);
-                    console.log(`Cargados ${videos.length} videos guardados`);
+                    console.log(`Cargados ${videos.length} videos`);
                 } catch (e) {
-                    console.error("Error cargando videos guardados:", e);
+                    console.error("Error cargando videos:", e);
                     videos = [];
                 }
             }
@@ -396,8 +439,8 @@
                 if (url) {
                     newVideos.push({
                         id: index + 1,
-                        title: `Video ${index + 1}`,
-                        author: "Tú",
+                        title: `Mi Video ${index + 1}`,
+                        author: "Yo",
                         videoUrl: url
                     });
                 }
@@ -415,7 +458,7 @@
                     loadVideo(currentVideoIndex);
                 }
             } else {
-                alert("❌ Ingresa al menos una URL de video");
+                alert("❌ Ingresa al menos una URL");
             }
         }
 
@@ -426,26 +469,26 @@
             videos = [
                 {
                     id: 1,
-                    title: "Aurora Boreal - Full HD",
+                    title: "Aurora Boreal - 1080p",
                     author: "Nature 4K",
                     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
                 },
                 {
                     id: 2,
-                    title: "Skateboarding - 1080p",
+                    title: "Skateboarding - Full HD",
                     author: "Extreme Sports",
                     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
                 },
                 {
                     id: 3,
-                    title: "Drone Flight - HD",
+                    title: "Drone Flight - 1080p",
                     author: "Aerial Views",
                     videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
                 }
             ];
             
             localStorage.setItem('videoShortsUrls', JSON.stringify(videos));
-            console.log("Videos de demo cargados");
+            console.log("Videos demo cargados");
             hideConfigPanel();
             
             if (userStarted) {
@@ -455,19 +498,17 @@
         }
 
         // ============================================
-        // MOSTRAR/OCULTAR PANEL DE CONFIGURACIÓN
+        // PANEL DE CONFIGURACIÓN
         // ============================================
         function showConfigPanel() {
-            // Limpiar inputs existentes
             videoInputs.innerHTML = '';
             
-            // Crear 3 inputs (puedes añadir más después)
             for (let i = 0; i < 3; i++) {
                 const video = videos[i] || { videoUrl: '' };
                 videoInputs.innerHTML += `
                     <input type="text" 
                            class="video-input config-input" 
-                           placeholder="URL del Video ${i + 1} (1920×1080)"
+                           placeholder="URL Video ${i + 1} (1920×1080)"
                            value="${video.videoUrl}">
                 `;
             }
@@ -486,7 +527,7 @@
             if (userStarted) return;
             
             if (videos.length === 0) {
-                alert("⚠️ Primero configura tus videos");
+                alert("⚠️ Configura videos primero");
                 showConfigPanel();
                 return;
             }
@@ -494,13 +535,10 @@
             userStarted = true;
             console.log(`Comenzando con ${videos.length} videos`);
             
-            // Ocultar pantalla de inicio
             startScreen.style.opacity = '0';
             setTimeout(() => {
                 startScreen.style.display = 'none';
                 mainContainer.style.display = 'block';
-                
-                // Cargar el primer video
                 loadVideo(currentVideoIndex);
             }, 500);
         }
@@ -509,10 +547,11 @@
         // CARGAR VIDEO
         // ============================================
         function loadVideo(index) {
-            if (index < 0 || index >= videos.length) {
-                console.error("Índice de video inválido:", index);
-                return;
-            }
+            if (index < 0 || index >= videos.length) return;
+            
+            // Ocultar pantallas
+            endScreen.classList.remove('show');
+            errorMessage.classList.remove('show');
             
             // Limpiar contenedor
             videosContainer.innerHTML = '';
@@ -522,24 +561,22 @@
             // Actualizar contador
             counter.textContent = `Video ${index + 1}/${videos.length}`;
             
-            // Crear contenedor de video
+            // Crear video
             const videoContainer = document.createElement('div');
             videoContainer.className = 'video-container';
-            videoContainer.id = 'currentVideoContainer';
             
-            // Crear elemento de video
             const videoElement = document.createElement('video');
             videoElement.id = 'currentVideo';
             videoElement.className = 'video-fullhd';
             videoElement.playsInline = true;
+            videoElement.loop = loopEnabled; // Configurar loop
             
-            // Fuente del video
             const source = document.createElement('source');
             source.src = video.videoUrl;
             source.type = 'video/mp4';
             videoElement.appendChild(source);
             
-            // Controles y overlay
+            // Controles
             const controlsHTML = `
                 <div class="controls">
                     <div class="title">${video.title}</div>
@@ -551,8 +588,8 @@
                 
                 <div class="actions">
                     <button class="action-btn" onclick="likeVideo(${index})">❤️<br><span class="action-count" id="likeCount${index}">0</span></button>
-                    <button class="action-btn" onclick="commentVideo(${index})">💬<br><span class="action-count">0</span></button>
-                    <button class="action-btn" onclick="shareVideo(${index})">↪️<br><span class="action-count">0</span></button>
+                    <button class="action-btn" onclick="commentVideo()">💬<br><span class="action-count">0</span></button>
+                    <button class="action-btn" onclick="shareVideo()">↪️<br><span class="action-count">0</span></button>
                 </div>
             `;
             
@@ -563,62 +600,47 @@
             // Configurar eventos
             setupVideoEvents(videoElement, index);
             
-            // Intentar reproducir
-            playVideoWithRetry(videoElement, index);
+            // Reproducir
+            playVideo(videoElement, index);
         }
 
         // ============================================
-        // REPRODUCIR VIDEO CON REINTENTOS
+        // REPRODUCIR VIDEO
         // ============================================
-        function playVideoWithRetry(videoElement, index, retryCount = 0) {
-            const maxRetries = 3;
+        function playVideo(videoElement, index, retryCount = 0) {
+            const maxRetries = 2;
             
             videoElement.play().then(() => {
                 console.log(`✅ Video ${index + 1} reproduciéndose`);
                 qualityBadge.textContent = '🎬 1080p';
                 
-                // Detectar dimensiones del video
+                // Detectar dimensiones
                 videoElement.addEventListener('loadedmetadata', () => {
                     const width = videoElement.videoWidth;
                     const height = videoElement.videoHeight;
                     
-                    // Actualizar info de depuración
                     debugInfo.style.display = 'block';
                     debugInfo.textContent = `${width}×${height}`;
                     
-                    // Ajustar clase según orientación
                     if (width > height) {
-                        // Horizontal
-                        videoElement.classList.remove('video-vertical');
                         videoElement.classList.add('video-horizontal');
                         qualityBadge.textContent = '🎬 1080p (Horizontal)';
                     } else {
-                        // Vertical
-                        videoElement.classList.remove('video-horizontal');
                         videoElement.classList.add('video-vertical');
                         qualityBadge.textContent = '🎬 1080p (Vertical)';
                     }
                 });
                 
             }).catch(error => {
-                console.error(`❌ Error reproduciendo video ${index + 1}:`, error);
+                console.error(`❌ Error:`, error);
                 
                 if (retryCount < maxRetries) {
-                    // Reintentar
-                    console.log(`Reintentando... (${retryCount + 1}/${maxRetries})`);
                     setTimeout(() => {
-                        playVideoWithRetry(videoElement, index, retryCount + 1);
+                        playVideo(videoElement, index, retryCount + 1);
                     }, 1000);
                 } else {
-                    // Mostrar error
-                    errorText.textContent = `No se pudo cargar: ${videos[index].videoUrl}`;
+                    errorText.textContent = `Error cargando: ${videos[index].title}`;
                     errorMessage.classList.add('show');
-                    
-                    // Auto-saltar después de 3 segundos
-                    setTimeout(() => {
-                        errorMessage.classList.remove('show');
-                        nextVideo();
-                    }, 3000);
                 }
             });
         }
@@ -627,16 +649,18 @@
         // CONFIGURAR EVENTOS DEL VIDEO
         // ============================================
         function setupVideoEvents(videoElement, index) {
-            // Cuando termina
+            // Cuando termina el video
             videoElement.addEventListener('ended', () => {
                 console.log(`📼 Video ${index + 1} terminado`);
                 
-                nextTimer.classList.add('show');
-                nextTimer.innerHTML = 'Siguiente en 1s...<br><button class="skip-btn" onclick="cancelSkip()">Cancelar</button>';
-                
-                timer = setTimeout(() => {
-                    nextVideo();
-                }, 1000);
+                if (!loopEnabled) {
+                    // Mostrar pantalla de fin (NO pasa automáticamente)
+                    showEndScreen();
+                } else {
+                    // Si loop está activado, reinicia automáticamente
+                    videoElement.currentTime = 0;
+                    videoElement.play();
+                }
             });
             
             // Clic para pausar/reproducir
@@ -649,44 +673,61 @@
                 }
             });
             
-            // Error de carga
-            videoElement.addEventListener('error', (e) => {
-                console.error(`🚨 Error en video ${index + 1}:`, e);
-                errorText.textContent = `Error técnico en: ${videos[index].videoUrl}`;
+            // Error
+            videoElement.addEventListener('error', () => {
+                errorText.textContent = `Error técnico en video`;
                 errorMessage.classList.add('show');
             });
+        }
+
+        // ============================================
+        // PANTALLA DE FIN DE VIDEO
+        // ============================================
+        function showEndScreen() {
+            endScreen.classList.add('show');
+        }
+
+        function hideEndScreen() {
+            endScreen.classList.remove('show');
         }
 
         // ============================================
         // CONTROL DE VIDEOS
         // ============================================
         function nextVideo() {
-            clearTimeout(timer);
-            nextTimer.classList.remove('show');
-            errorMessage.classList.remove('show');
-            
+            hideEndScreen();
             currentVideoIndex = (currentVideoIndex + 1) % videos.length;
             loadVideo(currentVideoIndex);
         }
 
         function prevVideo() {
-            clearTimeout(timer);
-            nextTimer.classList.remove('show');
-            errorMessage.classList.remove('show');
-            
+            hideEndScreen();
             currentVideoIndex = currentVideoIndex === 0 ? videos.length - 1 : currentVideoIndex - 1;
             loadVideo(currentVideoIndex);
         }
 
-        function cancelSkip() {
-            clearTimeout(timer);
-            nextTimer.classList.remove('show');
-            
+        function replayVideo() {
+            hideEndScreen();
             const videoElement = document.getElementById('currentVideo');
             if (videoElement) {
                 videoElement.currentTime = 0;
                 videoElement.play();
             }
+        }
+
+        function toggleLoop() {
+            loopEnabled = !loopEnabled;
+            
+            const videoElement = document.getElementById('currentVideo');
+            if (videoElement) {
+                videoElement.loop = loopEnabled;
+            }
+            
+            loopBadge.textContent = loopEnabled ? 'LOOP: ON' : 'LOOP: OFF';
+            toggleLoopBtn.textContent = loopEnabled ? '🔄 Loop: ON' : '🔄 Loop: OFF';
+            
+            // Mostrar notificación
+            showNotification(loopEnabled ? '🔁 Loop Activado' : '🔁 Loop Desactivado');
         }
 
         // ============================================
@@ -698,21 +739,47 @@
             count++;
             likeCount.textContent = count;
             
-            // Efecto visual
             likeCount.style.color = '#ff0050';
             likeCount.style.fontWeight = 'bold';
             setTimeout(() => {
                 likeCount.style.color = '';
                 likeCount.style.fontWeight = '';
             }, 500);
+            
+            showNotification('❤️ Like agregado');
         }
 
-        function commentVideo(index) {
-            alert(`Comentarios para: ${videos[index].title}`);
+        function commentVideo() {
+            const comment = prompt("Escribe tu comentario:");
+            if (comment) {
+                showNotification('💬 Comentario guardado');
+            }
         }
 
-        function shareVideo(index) {
-            alert(`Compartir: ${videos[index].title}`);
+        function shareVideo() {
+            showNotification('↪️ Video compartido (simulado)');
+        }
+
+        // ============================================
+        // NOTIFICACIONES
+        // ============================================
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(255,255,255,0.15);
+                backdrop-filter: blur(10px);
+                padding: 10px 20px;
+                border-radius: 10px;
+                z-index: 1000;
+                animation: fadeInOut 2s;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 2000);
         }
 
         // ============================================
@@ -744,10 +811,14 @@
                     }
                     break;
                     
+                case 'KeyL':
+                    e.preventDefault();
+                    toggleLoop();
+                    break;
+                    
                 case 'KeyR':
                     e.preventDefault();
-                    // Mezclar
-                    shuffleVideos();
+                    replayVideo();
                     break;
                     
                 case 'KeyC':
@@ -760,41 +831,11 @@
         });
 
         // ============================================
-        // MEZCLAR VIDEOS
-        // ============================================
-        function shuffleVideos() {
-            for (let i = videos.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [videos[i], videos[j]] = [videos[j], videos[i]];
-            }
-            
-            currentVideoIndex = 0;
-            loadVideo(currentVideoIndex);
-            
-            // Notificación
-            const notification = document.createElement('div');
-            notification.textContent = "🔀 Videos mezclados";
-            notification.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(255,255,255,0.2);
-                padding: 10px 20px;
-                border-radius: 10px;
-                z-index: 1000;
-                animation: fadeInOut 2s;
-            `;
-            document.body.appendChild(notification);
-            setTimeout(() => notification.remove(), 2000);
-        }
-
-        // ============================================
         // INICIAR APLICACIÓN
         // ============================================
         document.addEventListener('DOMContentLoaded', initApp);
 
-        // Animación para notificaciones
+        // Animación CSS
         const style = document.createElement('style');
         style.textContent = `
             @keyframes fadeInOut {
