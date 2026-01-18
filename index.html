@@ -1,180 +1,87 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miniapps AI - No Rules AI</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #333;
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-        
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-        }
-        
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .iframe-container {
-            background-color: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            height: 700px;
-        }
-        
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-        }
-        
-        .info {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 25px;
-            border-radius: 12px;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-        }
-        
-        .info h2 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-        
-        .info p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: #555;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .iframe-container {
-                height: 500px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .iframe-container {
-                height: 400px;
-            }
-            
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<title>No Rules AI - Embed Miniapp</title>
+<style>
+  body { margin:0; font-family:Arial, sans-serif; }
+  iframe { width:100%; height:500px; border:1px solid #ccc; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Miniapps AI - No Rules AI</h1>
-            <p class="subtitle">Una eina d'intel·ligència artificial sense regles que et permet explorar les possibilitats de la IA en un entorn lliure i creatiu.</p>
-        </header>
-        
-        <main>
-            <div class="iframe-container">
-                <iframe 
-                    src="https://miniapps.ai/es/no-rules-ai/" 
-                    title="Miniapps AI - No Rules AI"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
-            </div>
-            
-            <div class="info">
-                <h2>Sobre aquesta eina</h2>
-                <p>Aquesta pàgina mostra una integració de l'eina "No Rules AI" de Miniapps AI, una plataforma que ofereix eines d'intel·ligència artificial accessibles i fàcils d'utilitzar.</p>
-                <p>L'eina "No Rules AI" et permet interactuar amb un model d'IA sense restriccions predefinides, donant-te més llibertat per explorar les capacitats de la intel·ligència artificial.</p>
-                <p>El contingut es carrega directament des de <strong>https://miniapps.ai/es/no-rules-ai/</strong> mitjançant un iframe, mantenint totes les funcionalitats de l'aplicació original.</p>
-            </div>
-        </main>
-        
-        <footer>
-            <p>Pàgina desenvolupada amb HTML, CSS i JavaScript | Contingut proporcionat per Miniapps AI</p>
-        </footer>
-    </div>
-    
-    <script>
-        // Script bàsic per a millorar l'experiència d'usuari
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Pàgina carregada correctament');
-            
-            // Afegir un missatge de càrrega per al iframe
-            const iframe = document.querySelector('iframe');
-            iframe.addEventListener('load', function() {
-                console.log('Iframe carregat');
-            });
-            
-            // Control d'errors per al iframe
-            iframe.addEventListener('error', function() {
-                console.error('Error carregant el contingut del iframe');
-                const iframeContainer = document.querySelector('.iframe-container');
-                iframeContainer.innerHTML = `
-                    <div style="padding: 40px; text-align: center; color: #e74c3c;">
-                        <h3>Error carregant el contingut</h3>
-                        <p>No s'ha pogut carregar la pàgina de Miniapps AI. Si us plau, verifica la teva connexió a Internet o torna a intentar-ho més tard.</p>
-                        <p>També pots accedir directament a: <a href="https://miniapps.ai/es/no-rules-ai/" target="_blank">https://miniapps.ai/es/no-rules-ai/</a></p>
-                    </div>
-                `;
-            });
-        });
-    </script>
+
+<h2>Miniapp Embed: No Rules AI Clone</h2>
+
+<iframe srcdoc='
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family:Arial; margin:0; display:flex; flex-direction:column; height:100vh; }
+  #chat { flex:1; padding:10px; overflow-y:auto; border-bottom:1px solid #ccc; }
+  #input-area { display:flex; padding:10px; }
+  #msg { flex:1; padding:10px; font-size:16px; }
+  button { padding:10px 20px; font-size:16px; margin-left:5px; cursor:pointer; }
+  .user-msg { text-align:right; color:#0066ff; margin:5px 0; }
+  .bot-msg { text-align:left; color:#333; margin:5px 0; }
+</style>
+</head>
+<body>
+<div id="chat"></div>
+<div id="input-area">
+  <input id="msg" placeholder="Escriu aquí..." autocomplete="off"/>
+  <button onclick="send()">Enviar</button>
+</div>
+<script>
+function send() {
+  const input = document.getElementById("msg");
+  const msg = input.value.trim();
+  if (!msg) return;
+  appendMessage(msg,"user");
+  input.value="";
+  scrollChat();
+
+  // Simula resposta del bot
+  setTimeout(()=>{
+    const botResp = simulateBot(msg);
+    appendMessage(botResp,"bot");
+    scrollChat();
+  },300);
+}
+
+function appendMessage(text,sender){
+  const div = document.createElement("div");
+  div.className = sender==="user"?"user-msg":"bot-msg";
+  div.textContent=text;
+  document.getElementById("chat").appendChild(div);
+}
+
+function scrollChat(){
+  const chat = document.getElementById("chat");
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// Simula responses del “No Rules AI”
+function simulateBot(msg){
+  const responses=[
+    "Aquí tens una resposta sense regles!",
+    "No hi ha límits per a això.",
+    "Molt bé, continua parlant!",
+    "Això és interessant...",
+    "Em fas pensar!"
+  ];
+  return responses[Math.floor(Math.random()*responses.length)];
+}
+
+// Envia amb Enter
+document.getElementById("msg").addEventListener("keydown",e=>{
+  if(e.key==="Enter") send();
+});
+</script>
+</body>
+</html>
+'></iframe>
+
 </body>
 </html>
