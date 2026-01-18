@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoShorts - Autoplay Automático</title>
+    <title>VideoShorts - Con Interacción Requerida</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -18,6 +18,7 @@
             color: #fff;
             overflow: hidden;
             height: 100vh;
+            cursor: pointer; /* Indica que es clickeable */
         }
         
         .container {
@@ -361,6 +362,61 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
         
+        /* Pantalla de inicio */
+        .start-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+            transition: opacity 0.5s;
+        }
+        
+        .start-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .start-btn {
+            background: linear-gradient(45deg, #FF0050, #00F0FF);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: transform 0.3s;
+        }
+        
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .start-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #FF0050, #00F0FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .start-instruction {
+            font-size: 16px;
+            opacity: 0.8;
+            text-align: center;
+            max-width: 300px;
+            margin-bottom: 30px;
+        }
+        
         @media (max-width: 500px) {
             .container {
                 max-width: 100%;
@@ -378,7 +434,19 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Pantalla de inicio para interacción del usuario -->
+    <div class="start-screen" id="startScreen">
+        <div class="start-title">VideoShorts</div>
+        <div class="start-instruction">Toca cualquier lugar para comenzar a ver videos</div>
+        <button class="start-btn" id="startBtn">
+            <i class="fas fa-play"></i> Comenzar
+        </button>
+        <div class="start-instruction" style="margin-top: 20px; font-size: 14px;">
+            Los videos avanzarán automáticamente al terminar
+        </div>
+    </div>
+    
+    <div class="container" id="mainContainer" style="display: none;">
         <div class="header">
             <div class="logo">VideoShorts</div>
             <button class="random-btn" id="shuffleBtn">
@@ -405,48 +473,47 @@
         // Formato: https://raw.githubusercontent.com/USUARIO/REPOSITORIO/main/ruta/archivo.mp4
         // ============================================
         
-        // Datos de los videos CORREGIDOS
+        // Datos de los videos - USA ESTOS VIDEOS DE PRUEBA PRIMERO
         const videoData = [
             {
                 id: 1,
-                title: "Video 1 desde GitHub",
-                author: "Trispawn",
-                // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar1.jpg",
-                likes: "125K",
-                comments: "2.3K",
-                shares: "5K",
-                liked: false,
-                // URL CORREGIDA - usa "raw.githubusercontent.com" no "github.com"
-                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video1.mp4"
+                title: "Aurora Boreal en Noruega",
+                author: "Nature Wonders",
+                authorAvatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
+                likes: "325K",
+                comments: "4.2K",
+                shares: "9.1K",
+                liked: true,
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4"
             },
             {
                 id: 2,
-                title: "Video 2 desde GitHub",
-                author: "Trispawn",
-                // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar2.jpg",
-                likes: "89K",
-                comments: "1.5K",
-                shares: "3.2K",
-                liked: true,
-                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video2.mp4"
+                title: "Skateboarding en Downtown",
+                author: "Urban Sports",
+                authorAvatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+                likes: "287K",
+                comments: "3.8K",
+                shares: "7.4K",
+                liked: false,
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
             },
             {
                 id: 3,
-                title: "Video 3 desde GitHub",
-                author: "Trispawn",
-                // Reemplaza con la URL de tu imagen en GitHub
-                authorAvatar: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/images/avatar3.jpg",
-                likes: "210K",
-                comments: "4.7K",
-                shares: "12K",
+                title: "Dron sobre la Ciudad",
+                author: "Aerial Views",
+                authorAvatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop",
+                likes: "412K",
+                comments: "5.6K",
+                shares: "14.3K",
                 liked: false,
-                videoUrl: "https://raw.githubusercontent.com/Trispawn/chattivi/main/assets/video3.mp4"
+                videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
             }
         ];
 
         // Elementos del DOM
+        const startScreen = document.getElementById('startScreen');
+        const mainContainer = document.getElementById('mainContainer');
+        const startBtn = document.getElementById('startBtn');
         const videosContainer = document.getElementById('videosContainer');
         const shuffleBtn = document.getElementById('shuffleBtn');
         const shuffleNotice = document.getElementById('shuffleNotice');
@@ -457,9 +524,49 @@
         let currentVideoIndex = 0;
         let skipTimer = null;
         let userInteracted = false;
+        let userHasStarted = false;
 
         // Inicializar la página
         function initPage() {
+            // Mostrar pantalla de inicio
+            startScreen.style.display = 'flex';
+            mainContainer.style.display = 'none';
+            
+            // Configurar eventos de inicio
+            startBtn.addEventListener('click', startApp);
+            startScreen.addEventListener('click', startApp);
+            
+            // También permitir inicio con tecla
+            document.addEventListener('keydown', (e) => {
+                if (!userHasStarted && (e.code === 'Space' || e.code === 'Enter')) {
+                    startApp();
+                }
+            });
+        }
+
+        // Iniciar la aplicación después de interacción del usuario
+        function startApp() {
+            if (userHasStarted) return;
+            
+            userHasStarted = true;
+            console.log("Usuario interactuó, iniciando aplicación...");
+            
+            // Ocultar pantalla de inicio
+            startScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                mainContainer.style.display = 'block';
+                
+                // Inicializar videos
+                initializeVideos();
+            }, 500);
+        }
+
+        // Inicializar videos después de interacción del usuario
+        function initializeVideos() {
+            console.log("Inicializando videos...");
+            
             // Mostrar loader
             loader.style.display = 'block';
             
@@ -473,7 +580,7 @@
             // Generar orden aleatorio inicial
             shuffleVideos();
             
-            // Ocultar loader después de un breve tiempo (simulando carga)
+            // Ocultar loader después de un breve tiempo
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 800);
@@ -501,7 +608,7 @@
                 errorDiv.className = 'video-error';
                 errorDiv.innerHTML = `
                     <h3>⚠️ Error cargando video</h3>
-                    <p>No se pudo cargar el video desde GitHub.</p>
+                    <p>No se pudo cargar el video.</p>
                     <p>Verifica que la URL sea correcta y que el archivo exista.</p>
                     <button class="error-btn" onclick="retryVideo(${videoId})">Reintentar</button>
                 `;
@@ -519,6 +626,7 @@
                 const videoElement = videoCard.querySelector('video');
                 if (videoElement) {
                     videoElement.load();
+                    // Ahora el usuario ya interactuó, podemos reproducir con sonido
                     videoElement.play().catch(e => {
                         console.error("Error al reproducir video:", e);
                         showVideoError(videoId);
@@ -727,18 +835,20 @@
                         overlay.classList.add('show');
                     });
                     
-                    // Intentar reproducir con sonido (requiere interacción del usuario)
-                    videoElement.muted = true;
+                    // Ahora el usuario ya interactuó, podemos reproducir con sonido
+                    // Reproducir inmediatamente con sonido
+                    videoElement.muted = false;
                     videoElement.play().then(() => {
-                        // Una vez que el video empieza a reproducirse, intentamos activar el sonido
-                        videoElement.muted = false;
+                        console.log(`Video ${video.id} reproduciéndose con sonido`);
                     }).catch(e => {
-                        console.log("Autoplay con sonido no permitido:", e);
+                        console.log("Error al reproducir, intentando con muted:", e);
+                        // Si falla, intentar con muted
+                        videoElement.muted = true;
+                        videoElement.play();
                     });
                 } else {
-                    // Para videos no activos, pausarlos y silenciarlos
+                    // Para videos no activos, pausarlos
                     videoElement.pause();
-                    videoElement.muted = true;
                 }
             });
             
@@ -838,7 +948,6 @@
                             const prevTimer = prevVideoCard.querySelector('.next-video-timer');
                             
                             prevVideo.pause();
-                            prevVideo.muted = true;
                             if (prevSkipOverlay) prevSkipOverlay.classList.remove('show');
                             if (prevTimer) prevTimer.classList.remove('show');
                         }
